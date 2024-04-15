@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php session_start();
+
+if (!isset($_SESSION["user_id"]))
+{
+    header("Location: LoginPages/login.php");
+    die();
+}
+?>
 <body>
 
     <?php require_once '../resources/header.php'; ?>
