@@ -1,0 +1,93 @@
+/* .container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.todo, .doing, .done {
+    flex: 1;
+    margin-right: 20px;
+} */
+* {
+    box-sizing: border-box; /* Voorkom dat padding en border de totale breedte en hoogte van elementen vergroten */
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f8fa;
+    color: #24292e;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Zet de richting om naar kolom */
+    align-items: center; /* Centreer items horizontaal */
+    margin-top: 20px;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Zorg ervoor dat de filters de volledige breedte innemen */
+    margin-bottom: 20px; /* Voeg marges toe onder de filters */
+}
+
+.task-management {
+    flex: 1; /* Geef de taakbeheer de flexibiliteit om de rest van de ruimte in te nemen */
+    margin-right: 20px; /* Voeg marge toe aan de rechterkant om ruimte tussen filters en taken te creëren */
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.12), 0 1px 2px rgba(27, 31, 35, 0.24);
+}
+
+.taken-container {
+    display: flex;
+    justify-content: space-between; /* Verdeel de ruimte tussen de secties */
+    align-items: flex-start; /* Zorg ervoor dat de secties bovenaan worden uitgelijnd */
+    margin-top: 20px;
+}
+
+.todo, .doing, .done {
+    flex: 0 0 calc(33.33% - 20px); /* Verdeel de beschikbare ruimte in drie secties met 20px marge ertussen */
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.12), 0 1px 2px rgba(27, 31, 35, 0.24);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #dfe2e5;
+}
+
+th {
+    background-color: #f6f8fa;
+}
+
+td {
+    background-color: #fff;
+}
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
