@@ -162,7 +162,7 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
                 <tr>
                     <td><?php echo $taak['taak']; ?></td>
                     <td><?php echo $taak['sector']; ?></td>
-                    <td><?php echo $taak['persoonId']; ?></td>
+                    <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
                     <td><?php echo $taak['status']; ?></td>
                     <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                 </tr>
