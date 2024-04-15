@@ -1,6 +1,8 @@
-<?php session_start();
+<?php 
+require_once '../configs/conn.php';
+session_start();
 
-if (!isset($_SESSION["user_id"]))
+if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
 {
     header("Location: ../LoginPages/login.php");
     die();
@@ -20,7 +22,7 @@ if (!isset($_SESSION["user_id"]))
 
 <?php 
 // Verbinding maken in de database
-require_once '../configs/conn.php';
+
 $query = "SELECT * FROM taken";
 $sectorSelected = false;
 $placeholders = [];
