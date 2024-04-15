@@ -1,5 +1,7 @@
 <?php 
 require_once '../configs/conn.php';
+require_once "../Controller/helperFunctions.php";
+
 session_start();
 
 if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
@@ -105,9 +107,10 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach($taken as $taak): ?>
                 <?php if ($taak['status'] == 'ToDo'): ?>
                     <tr>
+                        <td><?php if ($taak["status"] == "Done") echo "Ja"; else echo "Nee"; ?></td>
                         <td><?php echo $taak['taak']; ?></td>
                         <td><?php echo $taak['sector']; ?></td>
-                        <td><?php echo $taak['persoonId']; ?></td>
+                        <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
                         <td><?php echo $taak['status']; ?></td>
                         <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                     </tr>
@@ -131,9 +134,10 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach($taken as $taak): ?>
                     <?php if ($taak['status'] == 'Doing'): ?>
                         <tr>
+                            <td><?php if ($taak["status"] == "Done") echo "Ja"; else echo "Nee"; ?></td>
                             <td><?php echo $taak['taak']; ?></td>
                             <td><?php echo $taak['sector']; ?></td>
-                            <td><?php echo $taak['persoonId']; ?></td>
+                            <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
                             <td><?php echo $taak['status']; ?></td>
                             <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                         </tr>
