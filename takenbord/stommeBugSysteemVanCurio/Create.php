@@ -1,8 +1,11 @@
-<?php session_start();
+<?php 
+require_once '../configs/conn.php';
 
-if (!isset($_SESSION["user_id"]))
+session_start();
+
+if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
 {
-    header("Location: LoginPages/login.php");
+    header("Location: ../LoginPages/login.php");
     die();
 }
    

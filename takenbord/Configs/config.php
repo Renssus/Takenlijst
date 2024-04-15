@@ -13,3 +13,5 @@ $dbPass = '';
 
 //De url waarop jouw project staat. Géén slash aan het einde.
 $base_url = 'http://localhost/git/love-rens/takenbord';
+
+$DEBUG_MODE = true;

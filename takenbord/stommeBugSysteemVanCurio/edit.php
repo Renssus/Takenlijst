@@ -1,8 +1,10 @@
-<?php session_start();
-
-if (!isset($_SESSION["user_id"]))
+<?php 
+require_once '../configs/conn.php';
+session_start();
+        
+if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
 {
-    header("Location: LoginPages/login.php");
+    header("Location: ../LoginPages/login.php");
     die();
 }
 ?>
@@ -16,7 +18,6 @@ if (!isset($_SESSION["user_id"]))
 
         <?php
         $id = $_GET['id'];
-        require_once '../configs/conn.php';
         $query = "SELECT * FROM taken WHERE id = :id";
         $statement = $conn->prepare($query);
         $statement->bindParam(':id', $id);

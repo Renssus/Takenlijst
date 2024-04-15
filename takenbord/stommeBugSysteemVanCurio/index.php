@@ -2,7 +2,7 @@
 
 if (!isset($_SESSION["user_id"]))
 {
-    header("Location: LoginPages/login.php");
+    header("Location: ../LoginPages/login.php");
     die();
 }
 ?>
