@@ -51,7 +51,8 @@ body {
 }
 
 .todo, .doing, .done {
-    flex: 0 0 calc(33.33% - 20px); /* Verdeel de beschikbare ruimte in drie secties met 20px marge ertussen */
+    width: 450px; /* Breedte van 500px */
+    height: 110px; /* Hoogte van 120px */    
     background-color: #fff;
     border: 1px solid #e1e4e8;
     border-radius: 6px;

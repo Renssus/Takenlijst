@@ -18,11 +18,17 @@ if($statement->rowCount() < 1){
 
 if(!password_verify($password , $user['password'])) {
     echo "Wachtwoord incorrect";
+    echo "<br> <a href='../loginpages/login.php'>Terug naar inloggen</a>";
     exit;
 }
+// Login op true zetten
+$_SESSION['logged_in'] = true;
+// Informatie opslaan
 $_SESSION['user_id'] = $user['id'];
 $_SESSION['user_name'] = $user['username'];
 $user = array( 'admin' => $user['admin'] );
+
+$userId = $_SESSION['user_id'];
 
 if ($user['admin'] == 1) {
     $ISADMIN = true;

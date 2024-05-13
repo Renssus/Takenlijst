@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="nl">
-<?php require_once '../Configs/config.php'; ?>
+<?php require_once '../Configs/config.php'; 
+?>
 <head>
     <title>Login Page</title>
+    
     <meta charset="utf-8">
 </head>
 

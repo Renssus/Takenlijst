@@ -1,13 +1,11 @@
-<?php 
+<?php session_start();
+// Database verbindingen + header
+require_once '../resources/header.php'; 
 require_once '../configs/conn.php';
-require_once "../Controller/helperFunctions.php";
-
-session_start();
-
-if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
-{
-    header("Location: ../LoginPages/login.php");
-    die();
+// checken of de gebruiker is ingelogd
+if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../loginpages/login.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +22,7 @@ if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
 
 <?php 
 // Verbinding maken in de database
-
+require_once '../configs/conn.php';
 $query = "SELECT * FROM taken";
 $sectorSelected = false;
 $placeholders = [];
@@ -48,6 +46,21 @@ if (isset($_GET['status'])) {
     $placeholders[':status'] = $_GET['status'];
 }
 
+// Verwijderen van divs
+if (isset($_GET['status'])) {
+    $selectedStatus = $_GET['status'];
+    if ($selectedStatus == 'Todo') {
+        // Verwijderen van Doing en done classes
+        echo '<style>.doing, .done { display: none; }</style>';
+    } elseif ($selectedStatus == 'Doing') {
+        // Vederijden van ToDo en done classes
+        echo '<style>.todo, .done { display: none; }</style>';
+    } elseif ($selectedStatus == 'Done') {
+        // Verwijderen van todo and doing classes
+        echo '<style>.todo, .doing { display: none; }</style>';
+    }
+}
+
 
 $statement = $conn->prepare($query);
 $statement->execute($placeholders);
@@ -55,8 +68,24 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 // Filteren van de taken
+// TODO: Deze array moet eigenlijk uit de database komen, zodat nieuwe sectoren automatisch worden toegevoegd
+// Create an array for the sectors, add all sectors
+$sectoren = [];
 
 
+$sectoren = [
+    'personeel',
+    'horeca',
+    'techniek',
+    'inkoop',
+    'klantenservice',
+    'groen'
+];
+$statussen = [
+    'ToDo',
+    'Doing',
+    'Done'
+];
 
 ?>
 
@@ -72,25 +101,34 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
                 <option value="SOON">SOON</option>
             </select> -->
             <form action="index.php" method="get" id="Filter-Sector">
-            <select name="sector">
-                <option value="">-- Sector (SOON) --</option>
-                <option value="personeel">Personeel</option>
-                <option value="horeca">Horeca</option>
-                <option value="techniek">Techniek</option>
-                <option value="inkoop">Inkoop</option>
-                <option value="klantenservice">Klantenservice</option>
-                <option value="groen">Groen</option>
-            </select>
-            <select id="status">
-                <option value="">-- Status --</option>
-                <option value="todo">Todo</option>
-                <option value="doing">Doing</option>
-                <option value="done">Done</option>
-            </select>
-            <input type="submit" value="Taken-Filteren">
+                <select name="sector">
+                    <option value="">-- Sector --</option>
+                    <?php foreach($sectoren as $sector)
+                        {
+                            if(isset($_GET['sector']) && $_GET['sector'] == $sector) {
+                                echo '<option value="' . $sector . '" selected>' . $sector . '</option>';
+                            } else {
+                                echo '<option value="' . $sector . '">' . $sector . '</option>';
+                            }
+                        }
+                    ?>
+                </select>
+                <select name="status">
+                    <option value="">-- Status --</option>
+                    <?php foreach($statussen as $status)
+                        {
+                            if(isset($_GET['status']) && $_GET['status'] == $status) {
+                                echo '<option value="' . $status . '" selected>' . $status . '</option>';
+                            } else {
+                                echo '<option value="' . $status . '">' . $status . '</option>';
+                            }
+                        }
+                    ?>
+                </select>
+                <input type="submit" value="Taken Filteren">
+            </form>
         </div>
     </div>
-
     <!-- Todo list tonen -->
 <div class="taken-container">
     <div class="todo">
@@ -100,17 +138,19 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
                 <th>Klaar</th>
                 <th>Taak</th>
                 <th>Sector</th>
-                <th>Persoon</th>
+                <th>deadline</th>
+                <th>Persoon ID</th>
                 <th>Status</th>
                 <th>Edit de taak</th>
             </tr>
             <?php foreach($taken as $taak): ?>
                 <?php if ($taak['status'] == 'ToDo'): ?>
                     <tr>
-                        <td><?php if ($taak["status"] == "Done") echo "Ja"; else echo "Nee"; ?></td>
+                        <td><input type="checkbox" class="Completed" data-task-id="<?php echo $taak['id']; ?>"></td>
                         <td><?php echo $taak['taak']; ?></td>
                         <td><?php echo $taak['sector']; ?></td>
-                        <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
+                        <td><?php echo $taak['deadline']; ?></td>
+                        <td><?php echo $taak['assignedToUserId']; ?></td>
                         <td><?php echo $taak['status']; ?></td>
                         <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                     </tr>
@@ -127,17 +167,19 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
                     <th>klaar</th>
                     <th>Taak</th>
                     <th>Sector</th>
-                    <th>Persoon</th>
+                    <th>deadline</th>
+                    <th>Persoon ID</th>
                     <th>Status</th>
                     <th>Edit de taak</th>
                 </tr>
                 <?php foreach($taken as $taak): ?>
                     <?php if ($taak['status'] == 'Doing'): ?>
                         <tr>
-                            <td><?php if ($taak["status"] == "Done") echo "Ja"; else echo "Nee"; ?></td>
+                            <td><input type="checkbox" class="Completed" data-task-id="<?php echo $taak['id']; ?>"></td>
                             <td><?php echo $taak['taak']; ?></td>
                             <td><?php echo $taak['sector']; ?></td>
-                            <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
+                            <td><?php echo $taak['deadline']; ?></td>
+                            <td><?php echo $taak['assignedToUserId']; ?></td>
                             <td><?php echo $taak['status']; ?></td>
                             <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                         </tr>
@@ -151,18 +193,22 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
         <h2>Done</h2>
         <table>
         <tr>
+            <th>klaar</th>
             <th>Taak</th>
             <th>Sector</th>
-            <th>Persoon</th>
+            <th>Deadline</th>
+            <th>Persoon ID</th>
             <th>Status</th>
             <th>Edit de taak</th>
         </tr>
         <?php foreach($taken as $taak): ?>
             <?php if ($taak['status'] == 'Done'): ?>
                 <tr>
+                    <td>Done</td>
                     <td><?php echo $taak['taak']; ?></td>
                     <td><?php echo $taak['sector']; ?></td>
-                    <td><?php echo getPersonNameFromID($taak['persoonId'], $conn); ?></td>
+                    <td><?php echo $taak['deadline']; ?></td>
+                    <td><?php echo $taak['assignedToUserId']; ?></td>
                     <td><?php echo $taak['status']; ?></td>
                     <td><a href="edit.php?id=<?php echo $taak['id']; ?>">Edit</a></td>
                 </tr>
@@ -172,25 +218,16 @@ $taken =  $statement->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 </body>
-<!-- 
-    TODO:
-    1. Maak een div waarin je de taken kunt zetten, bijv:
-    <div id="takenContainer">
-        <div id="singleTask">
-            <h1>Title</h1>
-            <div>Done</div>
-            <div>Task</div>
-            <div>Sector</div>
-            <div>Person</div>
-            <div>Status</div>
-            <div>Edit</div>
-        </div>
-    </div>
-
-    2. Voeg een "singleTask" aan takenContainer toe per taak in de database
-    3. Stel de tekst van de (bijv) Done-div, op bijv "Todo"
-
-    Note: Ik weet nog even niet hoe je één div selecteert, aamgezien ze een class moeten hebben
-    
--->
+<?php
+if (isset($_POST['complete'])) {
+    $taskId = $_POST['taskId'];
+    $query = "UPDATE taken SET status = 'Done' WHERE id = :taskId";
+    $statement = $conn->prepare($query);
+    $statement->bindParam(':taskId', $taskId);
+    $statement->execute();
+    header("Location: index.php");
+    exit;
+}
+?>
+</form>
 </html> 
