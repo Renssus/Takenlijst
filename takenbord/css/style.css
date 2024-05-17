@@ -8,34 +8,34 @@
     margin-right: 20px;
 } */
 * {
-    box-sizing: border-box; /* Voorkom dat padding en border de totale breedte en hoogte van elementen vergroten */
+    box-sizing: border-box;
+    /* Voorkom dat padding en border de totale breedte en hoogte van elementen vergroten */
     margin: 0;
     padding: 0;
 }
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f6f8fa;
     color: #24292e;
 }
 
-.container {
-    display: flex;
-    flex-direction: column; /* Zet de richting om naar kolom */
-    align-items: center; /* Centreer items horizontaal */
-    margin-top: 20px;
-}
+.container {}
 
 .filters {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%; /* Zorg ervoor dat de filters de volledige breedte innemen */
-    margin-bottom: 20px; /* Voeg marges toe onder de filters */
+    width: 100%;
+    /* Zorg ervoor dat de filters de volledige breedte innemen */
+    margin-bottom: 20px;
+    /* Voeg marges toe onder de filters */
+    box-shadow: 0 0 5px 2px grey;
+    padding: 2vh;
 }
 
 .task-management {
-    flex: 1; /* Geef de taakbeheer de flexibiliteit om de rest van de ruimte in te nemen */
-    margin-right: 20px; /* Voeg marge toe aan de rechterkant om ruimte tussen filters en taken te creëren */
+    margin-right: 20px;
     background-color: #fff;
     border: 1px solid #e1e4e8;
     border-radius: 6px;
@@ -44,20 +44,8 @@ body {
 }
 
 .taken-container {
-    display: flex;
-    justify-content: space-between; /* Verdeel de ruimte tussen de secties */
-    align-items: flex-start; /* Zorg ervoor dat de secties bovenaan worden uitgelijnd */
-    margin-top: 20px;
-}
-
-.todo, .doing, .done {
-    width: 450px; /* Breedte van 500px */
-    height: 110px; /* Hoogte van 120px */    
-    background-color: #fff;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.12), 0 1px 2px rgba(27, 31, 35, 0.24);
+    box-shadow: 0 0 5px 2px grey;
+    padding: 2vh;
 }
 
 h2 {
@@ -66,11 +54,12 @@ h2 {
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+    font-size: 1.2vh;
+    table-layout: fixed;
 }
 
-th, td {
+th,
+td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #dfe2e5;
@@ -91,4 +80,38 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5vh;
+}
+
+.title {
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 5px 2px grey;
+    padding: 2vh;
+}
+
+.header a {
+    padding: 2vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.home {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    padding: 4vh;
 }

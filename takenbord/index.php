@@ -1,12 +1,9 @@
 <?php
-include_once "Configs/config.php";
-
+include_once "config/config.php";
 
 session_start();
 
 if (!isset($_SESSION["user_id"]) && !$DEBUG_MODE)
-    header("Location: LoginPages/login.php");
+    header("Location: login/login.php");
 else
-    header("Location: stommeBugSysteemVanCurio/index.php");
-
-//Redirect
+    header("Location: tasks/index.php");
