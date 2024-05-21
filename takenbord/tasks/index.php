@@ -80,7 +80,7 @@ setTitle("Takenlijst - " . $_SESSION["user_name"]);
                         <h2 class="title"><?php echo strtoupper($statusName); ?></h2>
                         <table class='center'>
                             <tr>
-                                <th>Klaar</th>
+                                <th><?php if (strtolower($statusName) == "done") echo "Verwijder"; else echo "Klaar";?></th>
                                 <th>Taak</th>
                                 <th>Sector</th>
                                 <th>Deadline</th>
@@ -90,7 +90,9 @@ setTitle("Takenlijst - " . $_SESSION["user_name"]);
                             </tr>
                             <?php foreach ($statusTasks as $taak) : ?>
                                 <tr>
-                                    <td><a href="taskSetComplete.php?id=<?php echo $taak["id"];?>">Klaar</a></td>
+                                    <td><a href="../controller/taskController.php?action=<?php if (strtolower($statusName) == "done") echo "delete"; else echo "done";?>&id=<?php echo $taak["id"];?>">
+                                    <?php if (strtolower($statusName) == "done") echo "Verwijder"; else echo "Klaar";?>
+                                    </a></td>
                                     <td><?php echo $taak['taak']; ?></td>
                                     <td><?php echo $taak['sector']; ?></td>
                                     <td><?php echo $taak['deadline']; ?></td>

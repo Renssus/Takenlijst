@@ -63,4 +63,16 @@ if ($_GET['action'] == 'delete') {
     header("location: " . $base_url . "/tasks/index.php");
 }
 
+if ($_GET['action'] == 'done') {
+    $id = $_GET['id'];
+
+    $query = "UPDATE taken SET status=:status WHERE id = :id";
+    $statement = $conn->prepare($query);
+    $statement->execute([
+        ":id" => $id,
+        ":status" => "Done"
+    ]);
+    header("location: " . $base_url . "/tasks/index.php");
+}
+
 die();

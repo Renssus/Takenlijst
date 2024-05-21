@@ -9,7 +9,7 @@ setTitle("Register Page");
 
     <div class="container home">
         <h1>Register</h1>
-        <form action="<?php echo $base_url ?>/loginPages/authController.php?action=login" method="POST">
+        <form action="<?php echo $base_url ?>/login/authController.php?action=register" method="POST">
             <input type="text" name="username" placeholder="Gebruikersnaam">
             <input type="password" name="password" placeholder="Wachtwoord">
             <input type="submit" value="Inloggen">
