@@ -1,6 +1,7 @@
 <?php
 require_once '../config/conn.php';
 require_once 'helperFunctions.php';
+
 if ($_GET['action'] == 'create') {
     $taak = $_POST['taak'];
     $sector = $_POST['sector'];
@@ -30,9 +31,9 @@ if ($_GET['action'] == 'create') {
 if ($_GET['action'] == 'edit') {
     $taak = $_POST['taak'];
     $sector = $_POST['sector'];
-    $assignedToUserId = getIDFromUsername($_POST['assignedToUserId'], $conn);
+    $assignedToUserId = $_POST['assignedToUserId'];
     $status = $_POST['status'];
-
+    $deadline = $_POST["deadline"];
     $query = "UPDATE taken SET taak = :taak, sector = :sector, deadline = :deadline, asignedTo = :asignedTo, status = :status WHERE id = :id";
 
     $statement = $conn->prepare($query);

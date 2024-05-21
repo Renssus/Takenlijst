@@ -31,7 +31,7 @@ setTitle("Takenlijst Edit - " . $_SESSION["user_name"]);
         <div>
             <form action="<?php echo $base_url; ?>/controller/taskController.php?action=edit" method="POST">
 
-                <input type="hidden" name="" id="" value="<?php echo $task['id']; ?>">
+                <input type="hidden" name="id" id="id" value="<?php echo $task['id']; ?>">
                 <label for="taak">Taak:</label>
                 <input type="text" id="taak" name="taak" value="<?php echo $task['taak']; ?>" required><br><br>
 

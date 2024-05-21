@@ -19,16 +19,7 @@ setTitle("Takenlijst - " . $_SESSION["user_name"]);
     <?php require_once '../resources/header.php';
 
     $sectoren = [];
-
-    $sectoren = [
-        'Alles',
-        'Personeel',
-        'Horeca',
-        'Techniek',
-        'Inkoop',
-        'Klantenservice',
-        'Groen'
-    ];
+    $sectoren = array_column(getSectors($conn), 'sector');
     $statussen = [
         'Alles',
         'TODO',
